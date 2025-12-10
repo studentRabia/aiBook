@@ -1,0 +1,13 @@
+{
+  "buildCommand": "cd textbook && npm install && npm run build",
+  "outputDirectory": "textbook/build",
+  "devCommand": "cd textbook && npm start",
+  "installCommand": "cd textbook && npm install",
+  "framework": "docusaurus",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://your-backend-url.com/api/:path*"
+    }
+  ]
+}
