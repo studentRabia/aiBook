@@ -1,0 +1,573 @@
+openapi: 3.0.3
+info:
+  title: RAG Chatbot API
+  description: |
+    Retrieval-Augmented Generation chatbot API for robotics textbook.
+    Provides endpoints for chat interactions, session management, and health checks.
+  version: 1.0.0
+  contact:
+    name: RAG Chatbot Team
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development
+  - url: https://rag-chatbot-api.railway.app/api/v1
+    description: Production (Railway)
+
+tags:
+  - name: chat
+    description: Chat interaction endpoints
+  - name: sessions
+    description: Conversation session management
+  - name: health
+    description: Health and status checks
+
+paths:
+  /chat:
+    post:
+      tags: [chat]
+      summary: Send a message to the chatbot
+      description: |
+        Primary endpoint for chat interactions. Supports two query modes:
+        - **GENERAL**: Search entire textbook content
+        - **SELECTED_TEXT**: Answer based only on user-selected text
+
+        Returns AI-generated response with source citations.
+      operationId: sendMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+            examples:
+              general_query:
+                summary: General question about book content
+                value:
+                  session_id: "550e8400-e29b-41d4-a716-446655440000"
+                  message: "What is inverse kinematics?"
+                  query_mode: "general"
+                  context:
+                    current_chapter: "Chapter 3: Kinematics"
+                    current_page: "page_87"
+              selected_text_query:
+                summary: Question about selected text
+                value:
+                  session_id: "550e8400-e29b-41d4-a716-446655440000"
+                  message: "Explain this in simpler terms"
+                  query_mode: "selected_text"
+                  selected_text: "The Jacobian matrix relates joint velocities to end-effector velocities..."
+                  context:
+                    current_chapter: "Chapter 3: Kinematics"
+                    current_page: "page_92"
+      responses:
+        '200':
+          description: Successful response with answer and citations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+              examples:
+                in_scope_answer:
+                  summary: Answer with sources
+                  value:
+                    message_id: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+                    session_id: "550e8400-e29b-41d4-a716-446655440000"
+                    response: "Inverse kinematics is the process of calculating the joint angles needed to position a robot's end-effector at a desired location..."
+                    sources:
+                      - chunk_id: "chunk_142"
+                        chapter: "Chapter 3: Kinematics"
+                        section: "3.2 Inverse Kinematics"
+                        page_number: 87
+                        relevance_score: 0.94
+                        quoted_text: "Inverse kinematics calculates joint configurations..."
+                    confidence_score: 0.92
+                    is_out_of_scope: false
+                    performance:
+                      retrieval_time_ms: 280
+                      generation_time_ms: 1450
+                      total_time_ms: 1730
+                    timestamp: "2025-12-10T15:30:00Z"
+                out_of_scope_answer:
+                  summary: Question outside book scope
+                  value:
+                    message_id: "8d0e7780-8536-51ef-b055-f18fd2f01bf8"
+                    session_id: "550e8400-e29b-41d4-a716-446655440000"
+                    response: "I apologize, but that topic is not covered in this textbook. This book focuses on robotics fundamentals including kinematics, dynamics, and control."
+                    sources: []
+                    confidence_score: 0.15
+                    is_out_of_scope: true
+                    performance:
+                      retrieval_time_ms: 310
+                      generation_time_ms: 890
+                      total_time_ms: 1200
+                    timestamp: "2025-12-10T15:32:00Z"
+        '400':
+          description: Bad request (invalid input)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Invalid query_mode"
+                message: "query_mode must be 'general' or 'selected_text'"
+                code: "INVALID_QUERY_MODE"
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Rate limit exceeded"
+                message: "Maximum 60 requests per minute. Please try again later."
+                code: "RATE_LIMIT_EXCEEDED"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Internal server error"
+                message: "An unexpected error occurred. Please try again."
+                code: "INTERNAL_ERROR"
+
+  /sessions:
+    post:
+      tags: [sessions]
+      summary: Create a new conversation session
+      description: |
+        Initialize a new conversation session for a user.
+        Returns session ID to be used in subsequent chat requests.
+      operationId: createSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+            example:
+              textbook_id: "robotics-101"
+              user_id: "user_12345"
+      responses:
+        '201':
+          description: Session created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+              example:
+                session_id: "550e8400-e29b-41d4-a716-446655440000"
+                textbook_id: "robotics-101"
+                created_at: "2025-12-10T15:00:00Z"
+                is_active: true
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /sessions/{session_id}:
+    get:
+      tags: [sessions]
+      summary: Retrieve session details
+      description: Get conversation history and metadata for a session
+      operationId: getSession
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Session details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionDetailsResponse'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags: [sessions]
+      summary: End/clear a conversation session
+      description: Mark session as inactive and optionally clear history (FR-020)
+      operationId: deleteSession
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Session ended successfully
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /sessions/{session_id}/messages:
+    get:
+      tags: [sessions]
+      summary: Get conversation history
+      description: Retrieve all messages (user + chatbot) for a session
+      operationId: getSessionMessages
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+      responses:
+        '200':
+          description: Messages retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesResponse'
+
+  /health:
+    get:
+      tags: [health]
+      summary: Health check endpoint
+      description: Check API availability and dependency status
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "healthy"
+                timestamp: "2025-12-10T15:00:00Z"
+                dependencies:
+                  postgres: "connected"
+                  qdrant: "connected"
+                  openai: "available"
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "unhealthy"
+                timestamp: "2025-12-10T15:00:00Z"
+                dependencies:
+                  postgres: "connected"
+                  qdrant: "error"
+                  openai: "available"
+
+components:
+  schemas:
+    ChatRequest:
+      type: object
+      required:
+        - session_id
+        - message
+        - query_mode
+      properties:
+        session_id:
+          type: string
+          format: uuid
+          description: Active session ID
+        message:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          description: User's question or statement
+        query_mode:
+          type: string
+          enum: [general, selected_text]
+          description: Search strategy (FR-006)
+        selected_text:
+          type: string
+          maxLength: 5000
+          description: Text selected by user (required if query_mode=selected_text)
+        context:
+          $ref: '#/components/schemas/UserContext'
+      example:
+        session_id: "550e8400-e29b-41d4-a716-446655440000"
+        message: "What is inverse kinematics?"
+        query_mode: "general"
+        context:
+          current_chapter: "Chapter 3"
+          current_page: "page_87"
+
+    ChatResponse:
+      type: object
+      required:
+        - message_id
+        - session_id
+        - response
+        - sources
+        - is_out_of_scope
+        - performance
+        - timestamp
+      properties:
+        message_id:
+          type: string
+          format: uuid
+        session_id:
+          type: string
+          format: uuid
+        response:
+          type: string
+          description: AI-generated answer
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceCitation'
+          description: Citations to textbook (FR-005)
+        confidence_score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Answer confidence based on retrieval quality
+        is_out_of_scope:
+          type: boolean
+          description: True if question outside book scope (FR-009)
+        performance:
+          $ref: '#/components/schemas/PerformanceMetrics'
+        timestamp:
+          type: string
+          format: date-time
+
+    SourceCitation:
+      type: object
+      required:
+        - chunk_id
+        - chapter
+        - relevance_score
+      properties:
+        chunk_id:
+          type: string
+          description: ID of cited ContentChunk
+        chapter:
+          type: string
+          description: Chapter name
+        section:
+          type: string
+          description: Section name (optional)
+        page_number:
+          type: integer
+          description: Page number in textbook
+        relevance_score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Vector similarity score
+        quoted_text:
+          type: string
+          maxLength: 200
+          description: Direct quote from chunk
+
+    UserContext:
+      type: object
+      properties:
+        current_chapter:
+          type: string
+        current_page:
+          type: string
+        scroll_position:
+          type: integer
+
+    PerformanceMetrics:
+      type: object
+      required:
+        - retrieval_time_ms
+        - generation_time_ms
+        - total_time_ms
+      properties:
+        retrieval_time_ms:
+          type: integer
+          description: Vector search time (SC-001 target <500ms)
+        generation_time_ms:
+          type: integer
+          description: LLM generation time
+        total_time_ms:
+          type: integer
+          description: End-to-end time (SC-001 target <3000ms)
+
+    CreateSessionRequest:
+      type: object
+      required:
+        - textbook_id
+      properties:
+        textbook_id:
+          type: string
+          description: ID of textbook for this session
+        user_id:
+          type: string
+          description: Optional user identifier (anonymous if omitted)
+
+    SessionResponse:
+      type: object
+      required:
+        - session_id
+        - textbook_id
+        - created_at
+        - is_active
+      properties:
+        session_id:
+          type: string
+          format: uuid
+        textbook_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        is_active:
+          type: boolean
+
+    SessionDetailsResponse:
+      allOf:
+        - $ref: '#/components/schemas/SessionResponse'
+        - type: object
+          properties:
+            last_activity_at:
+              type: string
+              format: date-time
+            message_count:
+              type: integer
+
+    MessagesResponse:
+      type: object
+      required:
+        - session_id
+        - messages
+        - total
+      properties:
+        session_id:
+          type: string
+          format: uuid
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        total:
+          type: integer
+          description: Total message count in session
+        limit:
+          type: integer
+        offset:
+          type: integer
+
+    Message:
+      type: object
+      required:
+        - id
+        - type
+        - timestamp
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [user, chatbot]
+        timestamp:
+          type: string
+          format: date-time
+        # User message fields
+        message_text:
+          type: string
+        selected_text:
+          type: string
+        query_mode:
+          type: string
+          enum: [general, selected_text]
+        # Chatbot response fields
+        response_text:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceCitation'
+        confidence_score:
+          type: number
+          format: float
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+      properties:
+        status:
+          type: string
+          enum: [healthy, unhealthy]
+        timestamp:
+          type: string
+          format: date-time
+        dependencies:
+          type: object
+          properties:
+            postgres:
+              type: string
+              enum: [connected, error, unknown]
+            qdrant:
+              type: string
+              enum: [connected, error, unknown]
+            openai:
+              type: string
+              enum: [available, error, unknown]
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error type/category
+        message:
+          type: string
+          description: Human-readable error message
+        code:
+          type: string
+          description: Machine-readable error code
+        details:
+          type: object
+          description: Additional error context
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Optional API key for rate limiting/analytics
+
+security:
+  - ApiKeyAuth: []

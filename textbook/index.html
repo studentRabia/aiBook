@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robotics 101 Textbook - Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      line-height: 1.8;
+      color: #1f2937;
+      background: #ffffff;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #111827;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #1f2937;
+      margin-top: 48px;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      color: #374151;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 16px;
+      font-size: 1.125rem;
+      text-align: justify;
+    }
+
+    .highlight {
+      background: #fef3c7;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    code {
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95em;
+    }
+
+    .equation {
+      background: #f9fafb;
+      padding: 16px;
+      margin: 24px 0;
+      border-left: 4px solid #667eea;
+      border-radius: 4px;
+      font-family: 'Times New Roman', serif;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .note {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 16px;
+      margin: 24px 0;
+      border-radius: 4px;
+    }
+
+    .note strong {
+      color: #1e40af;
+    }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 24px 16px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+      }
+
+      h3 {
+        font-size: 1.35rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Robotics 101</h1>
+      <p class="subtitle">An Introduction to Robot Kinematics and Control</p>
+    </header>
+
+    <main>
+      <section data-chapter="Chapter 1: Introduction to Robotics">
+        <h2>Chapter 1: Introduction to Robotics</h2>
+
+        <h3 data-section="1.1 What is a Robot?">1.1 What is a Robot?</h3>
+        <p>
+          A robot is a <span class="highlight">programmable mechanical device</span> capable of
+          performing complex tasks autonomously or semi-autonomously. Modern robots combine
+          mechanical systems, sensors, actuators, and computer control systems to interact
+          with their environment and accomplish specific goals.
+        </p>
+
+        <p>
+          Robots are found in many industries today, from <span class="highlight">manufacturing
+          assembly lines</span> to surgical suites in hospitals. They can perform repetitive
+          tasks with high precision, operate in dangerous environments unsuitable for humans,
+          and increasingly collaborate with people in shared workspaces.
+        </p>
+
+        <div class="note">
+          <strong>Note:</strong> Try selecting any text in this page and asking the chatbot
+          questions about it using the "About Selection" mode!
+        </div>
+      </section>
+
+      <section data-chapter="Chapter 2: Robot Kinematics">
+        <h2>Chapter 2: Robot Kinematics</h2>
+
+        <h3 data-section="2.1 Forward Kinematics">2.1 Forward Kinematics</h3>
+        <p>
+          <span class="highlight">Forward kinematics</span> is the process of calculating the
+          position and orientation of a robot's end-effector given the joint angles. This is
+          a fundamental problem in robotics that allows us to determine where the robot's tool
+          or gripper will be located in space.
+        </p>
+
+        <p>
+          For a robot with <code>n</code> joints, forward kinematics involves computing a
+          series of coordinate transformations from the base frame to the end-effector frame.
+          Each joint contributes a transformation that depends on its type (revolute or prismatic)
+          and current configuration.
+        </p>
+
+        <div class="equation">
+          T = T₁ · T₂ · T₃ · ... · Tₙ
+        </div>
+
+        <p>
+          Where <code>T</code> is the overall transformation matrix and <code>Tᵢ</code>
+          represents the transformation at joint <code>i</code>.
+        </p>
+
+        <h3 data-section="2.2 Inverse Kinematics">2.2 Inverse Kinematics</h3>
+        <p>
+          <span class="highlight">Inverse kinematics</span> solves the opposite problem:
+          given a desired position and orientation of the end-effector, what joint angles
+          are required to achieve it? This is a more challenging problem because:
+        </p>
+
+        <p>
+          First, there may be <span class="highlight">multiple solutions</span> for the same
+          end-effector pose. For example, a human arm can reach the same point in space with
+          the elbow up or elbow down. Second, some poses may be unreachable due to joint limits
+          or physical constraints. Third, for robots with more than six degrees of freedom,
+          the system becomes redundant with infinite solutions.
+        </p>
+
+        <div class="note">
+          <strong>Example:</strong> For a 2-link planar arm, if we want the end-effector at
+          position (x, y), we can use the law of cosines to compute the joint angles θ₁ and θ₂.
+          However, this typically yields two solutions corresponding to "elbow up" and "elbow down"
+          configurations.
+        </div>
+
+        <h3 data-section="2.3 The Jacobian Matrix">2.3 The Jacobian Matrix</h3>
+        <p>
+          The <span class="highlight">Jacobian matrix</span> relates joint velocities to
+          end-effector velocities. It is a fundamental tool in robot control, path planning,
+          and singularity analysis. The Jacobian provides a linear approximation of the
+          robot's kinematics near a given configuration.
+        </p>
+
+        <p>
+          Mathematically, if <code>q</code> represents the joint angles and <code>x</code>
+          represents the end-effector position, the Jacobian <code>J</code> is defined as:
+        </p>
+
+        <div class="equation">
+          ẋ = J(q) · q̇
+        </div>
+
+        <p>
+          This relationship allows us to compute how fast the end-effector moves given the
+          joint velocities, or conversely, what joint velocities are needed to achieve a
+          desired end-effector velocity.
+        </p>
+      </section>
+
+      <section data-chapter="Chapter 3: Robot Control">
+        <h2>Chapter 3: Robot Control</h2>
+
+        <h3 data-section="3.1 PID Control">3.1 PID Control</h3>
+        <p>
+          <span class="highlight">PID (Proportional-Integral-Derivative) control</span> is
+          one of the most widely used control strategies in robotics. It combines three
+          control actions to minimize the error between the desired and actual robot state.
+        </p>
+
+        <p>
+          The proportional term provides control action proportional to the current error.
+          The integral term accounts for accumulated past errors. The derivative term
+          predicts future error based on the current rate of change. Together, these three
+          terms provide robust control for many robotic systems.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Robotics 101 Textbook - Demo Page with RAG Chatbot</p>
+      <p>Try selecting text and asking questions using the chatbot!</p>
+    </footer>
+  </div>
+
+  <!-- Load chatbot widget -->
+  <script type="module">
+    import { initChatbot, checkAPI } from '../frontend/src/index.js';
+
+    // Check API availability
+    const apiHealthy = await checkAPI();
+    if (!apiHealthy) {
+      console.warn('[Demo] Backend API is not available. Make sure the backend is running on http://localhost:8000');
+    }
+
+    // Initialize chatbot widget
+    const widget = initChatbot({
+      textbookId: 'robotics-101',
+      autoInit: true
+    });
+
+    console.log('[Demo] Chatbot widget loaded:', widget);
+  </script>
+</body>
+</html>

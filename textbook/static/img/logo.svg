@@ -1,0 +1,21 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Robot head -->
+  <rect x="8" y="6" width="16" height="14" rx="2" fill="#2e8555" stroke="#1a5233" stroke-width="1"/>
+  <!-- Eyes -->
+  <circle cx="13" cy="12" r="2" fill="#ffffff"/>
+  <circle cx="19" cy="12" r="2" fill="#ffffff"/>
+  <circle cx="13" cy="12" r="1" fill="#1a5233"/>
+  <circle cx="19" cy="12" r="1" fill="#1a5233"/>
+  <!-- Antenna -->
+  <line x1="16" y1="6" x2="16" y2="3" stroke="#2e8555" stroke-width="1.5"/>
+  <circle cx="16" cy="3" r="1.5" fill="#2e8555"/>
+  <!-- Mouth -->
+  <rect x="12" y="16" width="8" height="2" rx="1" fill="#1a5233"/>
+  <!-- Body -->
+  <rect x="10" y="20" width="12" height="8" rx="1" fill="#2e8555" stroke="#1a5233" stroke-width="1"/>
+  <!-- Arms -->
+  <rect x="6" y="22" width="4" height="2" rx="1" fill="#2e8555"/>
+  <rect x="22" y="22" width="4" height="2" rx="1" fill="#2e8555"/>
+  <!-- Chest detail -->
+  <circle cx="16" cy="24" r="1.5" fill="#ffffff" opacity="0.6"/>
+</svg>
