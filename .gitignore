@@ -71,3 +71,6 @@ desktop.ini
 
 # Docker (if used for reproducibility)
 *.dockerignore
+
+.vercel
+.env*.local

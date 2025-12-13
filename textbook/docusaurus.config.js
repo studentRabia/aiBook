@@ -42,6 +42,7 @@ const config = {
           // Edit URL disabled - enable when GitHub repository is set up
           // editUrl: 'https://github.com/your-username/robotics-textbook/tree/main/textbook/',
         },
+        pages: {},
         blog: false, // Disable blog for textbook
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -55,6 +56,17 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
+      // Table of contents configuration
+      tableOfContents: {
+        minHeadingLevel: 2,
+        maxHeadingLevel: 4,
+      },
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: false,
+        },
+      },
       navbar: {
         title: 'Physical AI & Humanoid Robotics',
         logo: {
@@ -122,7 +134,21 @@ const config = {
   markdown: {
     mermaid: true,
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
+      ({
+        hashed: true,
+        language: ['en'],
+        highlightSearchTermsOnTargetPage: true,
+        explicitSearchResultPath: true,
+        docsRouteBasePath: '/docs',
+        indexBlog: false,
+      }),
+    ],
+  ],
 };
 
 module.exports = config;
