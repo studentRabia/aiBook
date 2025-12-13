@@ -140,31 +140,22 @@ export default function SignUp() {
     try {
       const personalizedLevel = calculatePersonalizedLevel();
 
-      const response = await fetch('/api/auth/sign-up/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          programmingExperience,
-          programmingLanguages: JSON.stringify(programmingLanguages),
-          softwareBackground,
-          hardwareExperience,
-          roboticsExperience,
-          hardwarePlatforms: JSON.stringify(hardwarePlatforms),
-          learningGoals: JSON.stringify(learningGoals),
-          personalizedLevel,
-        }),
+      // Import auth client dynamically to avoid SSR issues
+      const { authClient } = await import('../lib/auth-client');
+
+      await authClient.signUp({
+        name,
+        email,
+        password,
+        programmingExperience,
+        programmingLanguages: JSON.stringify(programmingLanguages),
+        softwareBackground,
+        hardwareExperience,
+        roboticsExperience,
+        hardwarePlatforms: JSON.stringify(hardwarePlatforms),
+        learningGoals: JSON.stringify(learningGoals),
+        personalizedLevel,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to sign up');
-      }
 
       // Redirect to home or dashboard
       window.location.href = '/docs/intro';

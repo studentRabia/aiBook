@@ -3,16 +3,5 @@
   "outputDirectory": "textbook/build",
   "devCommand": "cd textbook && npm start",
   "installCommand": "cd textbook && npm install",
-  "framework": "docusaurus",
-  "functions": {
-    "textbook/api/**/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/auth/:path*",
-      "destination": "/api/auth/[...all]"
-    }
-  ]
+  "framework": "docusaurus"
 }

@@ -15,23 +15,14 @@ export default function SignIn() {
     setError('');
 
     try {
-      const response = await fetch('/api/auth/sign-in/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          rememberMe,
-        }),
+      // Import auth client dynamically to avoid SSR issues
+      const { authClient } = await import('../lib/auth-client');
+
+      await authClient.signIn({
+        email,
+        password,
+        rememberMe,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Invalid email or password');
-      }
 
       // Redirect to docs
       window.location.href = '/docs/intro';

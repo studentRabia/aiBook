@@ -8,22 +8,25 @@ export default function AuthButtons() {
 
   useEffect(() => {
     checkSession();
+
+    // Listen for storage changes (multi-tab sync)
+    const handleStorage = () => checkSession();
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   const checkSession = async () => {
     try {
-      const response = await fetch('/api/auth/get-session', {
-        credentials: 'include',
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.session) {
-          setUser(data.session.user);
-        }
+      const { authClient } = await import('../lib/auth-client');
+      const session = await authClient.getSession();
+      if (session?.user) {
+        setUser(session.user);
+      } else {
+        setUser(null);
       }
     } catch (error) {
       console.error('Session check failed:', error);
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -31,11 +34,10 @@ export default function AuthButtons() {
 
   const handleSignOut = async () => {
     try {
-      await fetch('/api/auth/sign-out', {
-        method: 'POST',
-        credentials: 'include',
-      });
+      const { authClient } = await import('../lib/auth-client');
+      await authClient.signOut();
       setUser(null);
+      setDropdownOpen(false);
       window.location.href = '/';
     } catch (error) {
       console.error('Sign out failed:', error);
@@ -53,6 +55,17 @@ export default function AuthButtons() {
         return styles.badgeBeginner;
     }
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownOpen && !e.target.closest(`.${styles.userMenu}`)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [dropdownOpen]);
 
   if (loading) {
     return <div className={styles.loading}>...</div>;
@@ -81,9 +94,6 @@ export default function AuthButtons() {
               <span>{user.email}</span>
             </div>
             <div className={styles.dropdownDivider} />
-            <a href="/profile" className={styles.dropdownItem}>
-              Profile Settings
-            </a>
             <a href="/docs/intro" className={styles.dropdownItem}>
               My Learning Path
             </a>
