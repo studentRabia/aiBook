@@ -1,0 +1,456 @@
+.authContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 2rem;
+  background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+}
+
+[data-theme='dark'] .authContainer {
+  background: linear-gradient(135deg, #1a237e 0%, #0d1442 100%);
+}
+
+.authCard {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] .authCard {
+  background: #1e1e2e;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.title {
+  text-align: center;
+  color: #3949ab;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+[data-theme='dark'] .title {
+  color: #9fa8da;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+[data-theme='dark'] .subtitle {
+  color: #aaa;
+}
+
+/* Step Indicator */
+.stepIndicator {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.step {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: #e0e0e0;
+  color: #666;
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  width: 1rem;
+  height: 2px;
+  background: #e0e0e0;
+  transform: translateY(-50%);
+}
+
+.step.active {
+  background: #3949ab;
+  color: white;
+}
+
+.step.completed {
+  background: #4caf50;
+  color: white;
+}
+
+.step.completed::after {
+  background: #4caf50;
+}
+
+[data-theme='dark'] .step {
+  background: #333;
+  color: #888;
+}
+
+[data-theme='dark'] .step:not(:last-child)::after {
+  background: #333;
+}
+
+[data-theme='dark'] .step.active {
+  background: #5c6bc0;
+}
+
+/* Step Content */
+.stepContent {
+  margin-bottom: 1.5rem;
+}
+
+.stepContent h2 {
+  color: #3949ab;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+[data-theme='dark'] .stepContent h2 {
+  color: #9fa8da;
+}
+
+.stepDescription {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+[data-theme='dark'] .stepDescription {
+  color: #aaa;
+}
+
+/* Form Elements */
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+[data-theme='dark'] .formGroup label {
+  color: #ddd;
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="email"],
+.formGroup input[type="password"],
+.formGroup textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #3949ab;
+  box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.1);
+}
+
+[data-theme='dark'] .formGroup input[type="text"],
+[data-theme='dark'] .formGroup input[type="email"],
+[data-theme='dark'] .formGroup input[type="password"],
+[data-theme='dark'] .formGroup textarea {
+  background: #2a2a3a;
+  border-color: #444;
+  color: #fff;
+}
+
+[data-theme='dark'] .formGroup input:focus,
+[data-theme='dark'] .formGroup textarea:focus {
+  border-color: #5c6bc0;
+  box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.2);
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Radio Buttons */
+.radioGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.radioLabel:hover {
+  border-color: #3949ab;
+}
+
+.radioLabel input[type="radio"] {
+  accent-color: #3949ab;
+}
+
+.radioLabel input[type="radio"]:checked + .radioText {
+  color: #3949ab;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .radioLabel {
+  border-color: #444;
+}
+
+[data-theme='dark'] .radioLabel:hover {
+  border-color: #5c6bc0;
+}
+
+[data-theme='dark'] .radioLabel input[type="radio"]:checked + .radioText {
+  color: #9fa8da;
+}
+
+/* Checkboxes */
+.checkboxGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkboxLabel:hover {
+  border-color: #3949ab;
+  background: rgba(57, 73, 171, 0.05);
+}
+
+.checkboxLabel input[type="checkbox"] {
+  accent-color: #3949ab;
+  width: 18px;
+  height: 18px;
+}
+
+.checkboxLabel input[type="checkbox"]:checked + span {
+  color: #3949ab;
+  font-weight: 500;
+}
+
+[data-theme='dark'] .checkboxLabel {
+  border-color: #444;
+}
+
+[data-theme='dark'] .checkboxLabel:hover {
+  border-color: #5c6bc0;
+  background: rgba(92, 107, 192, 0.1);
+}
+
+[data-theme='dark'] .checkboxLabel input[type="checkbox"]:checked + span {
+  color: #9fa8da;
+}
+
+/* Summary Box */
+.summaryBox {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.summaryBox h3 {
+  color: #3949ab;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.summaryBox p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+[data-theme='dark'] .summaryBox {
+  background: #2a2a3a;
+}
+
+[data-theme='dark'] .summaryBox h3 {
+  color: #9fa8da;
+}
+
+[data-theme='dark'] .summaryBox p {
+  color: #bbb;
+}
+
+/* Buttons */
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.backButton,
+.nextButton,
+.submitButton {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.backButton {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.backButton:hover {
+  background: #d0d0d0;
+}
+
+.nextButton,
+.submitButton {
+  background: #3949ab;
+  color: white;
+}
+
+.nextButton:hover,
+.submitButton:hover {
+  background: #303f9f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(57, 73, 171, 0.3);
+}
+
+.submitButton:disabled {
+  background: #9fa8da;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+[data-theme='dark'] .backButton {
+  background: #444;
+  color: #ddd;
+}
+
+[data-theme='dark'] .backButton:hover {
+  background: #555;
+}
+
+[data-theme='dark'] .nextButton,
+[data-theme='dark'] .submitButton {
+  background: #5c6bc0;
+}
+
+[data-theme='dark'] .nextButton:hover,
+[data-theme='dark'] .submitButton:hover {
+  background: #7986cb;
+}
+
+/* Remember Me Row */
+.rememberRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.forgotLink {
+  color: #3949ab;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+[data-theme='dark'] .forgotLink {
+  color: #9fa8da;
+}
+
+/* Error Message */
+.error {
+  background: #ffebee;
+  color: #c62828;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  border-left: 4px solid #c62828;
+}
+
+[data-theme='dark'] .error {
+  background: rgba(198, 40, 40, 0.2);
+  color: #ef9a9a;
+}
+
+/* Switch Auth Link */
+.switchAuth {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #666;
+}
+
+.switchAuth a {
+  color: #3949ab;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.switchAuth a:hover {
+  text-decoration: underline;
+}
+
+[data-theme='dark'] .switchAuth {
+  color: #aaa;
+}
+
+[data-theme='dark'] .switchAuth a {
+  color: #9fa8da;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .authCard {
+    padding: 1.5rem;
+  }
+
+  .checkboxGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .radioGroup {
+    flex-direction: column;
+  }
+
+  .buttonGroup {
+    flex-direction: column-reverse;
+  }
+}

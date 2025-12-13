@@ -1,1 +1,5 @@
 .vercel
+.env
+.env.local
+*.db
+auth.db

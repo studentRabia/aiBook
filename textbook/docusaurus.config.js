@@ -80,12 +80,15 @@ const config = {
             position: 'left',
             label: 'Textbook',
           },
-          // GitHub link - uncomment and update URL when repository is created
-          // {
-          //   href: 'https://github.com/your-username/robotics-textbook',
-          //   label: 'GitHub',
-          //   position: 'right',
-          // },
+          {
+            href: 'https://github.com/studentRabia/aiBook',
+            label: 'GitHub',
+            position: 'right',
+          },
+          {
+            type: 'custom-authButtons',
+            position: 'right',
+          },
         ],
       },
       footer: {
