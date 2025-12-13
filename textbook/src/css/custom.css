@@ -4,6 +4,9 @@
  * work well for content-centric websites.
  */
 
+/* Import Urdu font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+
 /* Indigo theme */
 :root {
   --ifm-color-primary: #5c6bc0;

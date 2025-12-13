@@ -1,0 +1,161 @@
+.translateContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+  border-radius: 12px;
+  border: 1px solid #9fa8da;
+}
+
+[data-theme='dark'] .translateContainer {
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  border-color: #3949ab;
+}
+
+.translateButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: #3949ab;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(57, 73, 171, 0.3);
+}
+
+.translateButton:hover:not(:disabled) {
+  background: #303f9f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(57, 73, 171, 0.4);
+}
+
+.translateButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.translateButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.translateButton.active {
+  background: #1b5e20;
+}
+
+.translateButton.active:hover:not(:disabled) {
+  background: #2e7d32;
+}
+
+[data-theme='dark'] .translateButton {
+  background: #5c6bc0;
+}
+
+[data-theme='dark'] .translateButton:hover:not(:disabled) {
+  background: #7986cb;
+}
+
+[data-theme='dark'] .translateButton.active {
+  background: #2e7d32;
+}
+
+.icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.text {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loginHint {
+  font-size: 0.85rem;
+  color: #5c6bc0;
+}
+
+.loginHint a {
+  color: #3949ab;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.loginHint a:hover {
+  text-decoration: underline;
+}
+
+[data-theme='dark'] .loginHint {
+  color: #9fa8da;
+}
+
+[data-theme='dark'] .loginHint a {
+  color: #c5cae9;
+}
+
+/* Urdu content styles */
+:global(.urdu-content) {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', serif !important;
+}
+
+:global(.urdu-content) h1,
+:global(.urdu-content) h2,
+:global(.urdu-content) h3,
+:global(.urdu-content) h4,
+:global(.urdu-content) h5,
+:global(.urdu-content) h6 {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif !important;
+}
+
+:global(.urdu-content) p,
+:global(.urdu-content) li,
+:global(.urdu-content) td,
+:global(.urdu-content) th {
+  line-height: 2;
+  font-size: 1.1em;
+}
+
+/* Keep code blocks LTR */
+:global(.urdu-content) pre,
+:global(.urdu-content) code {
+  direction: ltr !important;
+  text-align: left !important;
+  font-family: 'Fira Code', 'Consolas', monospace !important;
+}
+
+:global(.urdu-content) .prism-code {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .translateContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .translateButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
