@@ -1,0 +1,118 @@
+/**
+ * TypewriterText Styles
+ *
+ * Professional typewriter animation with Night Party gradient background.
+ * Designed for high-end robotics & AI textbook aesthetic.
+ *
+ * Color palette: Night Party - #0250c5 (blue) → #d43f8d (pink)
+ */
+
+/* Container for the typewriter text */
+.typewriterContainer {
+  display: inline-block;
+  position: relative;
+}
+
+/* Text with gradient background */
+.gradientText {
+  /* Black text color */
+  color: #000000;
+  -webkit-text-fill-color: #000000;
+
+  /* Smooth font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Night Party gradient background */
+  background: linear-gradient(to top, #0250c5 0%, #d43f8d 100%);
+
+  /* Padding for background visibility */
+  padding: 0.3em 0.5em;
+  border-radius: 8px;
+
+  /* Subtle box shadow for depth */
+  box-shadow: 0 4px 15px rgba(2, 80, 197, 0.3),
+              0 2px 6px rgba(212, 63, 141, 0.2);
+}
+
+/* Blinking cursor for typewriter effect */
+.cursor {
+  display: inline-block;
+  font-weight: 400;
+  margin-left: 2px;
+  color: #000000;
+  -webkit-text-fill-color: #000000;
+
+  /* Smooth blinking animation */
+  animation: blink 0.8s ease-in-out infinite;
+}
+
+/* Cursor blink animation */
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Subtle glow overlay on completion */
+.glowOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ==========================================
+   Dark mode adjustments
+   ========================================== */
+
+/* Dark mode: Same gradient, black text works well */
+[data-theme='dark'] .gradientText {
+  color: #000000;
+  -webkit-text-fill-color: #000000;
+
+  /* Brighter Night Party gradient for dark mode */
+  background: linear-gradient(to top, #3b7dff 0%, #ff5fad 100%);
+
+  /* Stronger glow in dark mode */
+  box-shadow: 0 4px 20px rgba(59, 125, 255, 0.4),
+              0 2px 10px rgba(255, 95, 173, 0.3);
+}
+
+[data-theme='dark'] .cursor {
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+}
+
+/* ==========================================
+   Responsive adjustments
+   ========================================== */
+
+@media screen and (max-width: 996px) {
+  .gradientText {
+    padding: 0.2em 0.4em;
+    border-radius: 6px;
+  }
+}
+
+/* ==========================================
+   Reduced motion preference
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+    opacity: 1;
+  }
+
+  .glowOverlay {
+    animation: none;
+    opacity: 1;
+  }
+}

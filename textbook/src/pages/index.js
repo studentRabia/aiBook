@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
+import TypewriterText from '../components/TypewriterText';
 import styles from './index.module.css';
 
 function HomepageHeader() {
@@ -10,8 +11,16 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        {/* Animated typewriter title with gradient effect */}
+        <h1 className={clsx('hero__title', styles.heroTitle)}>
+          <TypewriterText
+            text={siteConfig.title}
+            speed={70}
+            initialDelay={300}
+            showCursor={true}
+          />
+        </h1>
+        <p className={clsx('hero__subtitle', styles.heroSubtitle)}>{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"

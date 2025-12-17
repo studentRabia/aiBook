@@ -11,12 +11,50 @@
   }
 }
 
+/* Hero title with typewriter animation */
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  min-height: 4rem; /* Prevents layout shift during animation */
+}
+
+@media screen and (max-width: 996px) {
+  .heroTitle {
+    font-size: 2rem;
+    min-height: 3rem;
+  }
+}
+
+/* Subtitle with fade-in effect */
+.heroSubtitle {
+  font-size: 1.25rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 2.5s forwards; /* Appears after typewriter completes */
+  color: var(--ifm-hero-text-color);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 3s forwards; /* Appears after subtitle */
 }
 
 .features {
@@ -28,4 +66,13 @@
 
 .feature {
   margin-bottom: 2rem;
+}
+
+/* Reduced motion: show everything immediately */
+@media (prefers-reduced-motion: reduce) {
+  .heroSubtitle,
+  .buttons {
+    opacity: 1;
+    animation: none;
+  }
 }

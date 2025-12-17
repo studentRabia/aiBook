@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     # Application Configuration
     environment: str = "development"
     log_level: str = "INFO"
-    cors_origins: List[str] = ["http://localhost:3000", "http://localhost:8080"]
+    cors_origins: List[str] = ["http://localhost:3000", "http://localhost:3001", "http://localhost:8080"]
 
     # Textbook Configuration
     textbook_id: str = "robotics-101"
