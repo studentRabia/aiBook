@@ -5,6 +5,7 @@ import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import Heading from '@theme/Heading';
 import MDXContent from '@theme/MDXContent';
 import TranslateButton from '@site/src/components/TranslateButton';
+import PersonalizeButton from '@site/src/components/PersonalizeButton';
 
 /**
  * Title component - renders the doc title
@@ -24,6 +25,9 @@ export default function DocItemContent({children}) {
 
   return (
     <div className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
+      {/* AI Personalization Button - logged-in users only */}
+      <PersonalizeButton />
+
       {/* Translate Button at the top of each chapter */}
       <TranslateButton />
 

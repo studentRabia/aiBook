@@ -2,5 +2,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "installCommand": "npm install",
-  "framework": "docusaurus"
+  "framework": "docusaurus",
+  "functions": {
+    "api/personalize.js": {
+      "runtime": "edge"
+    }
+  }
 }
