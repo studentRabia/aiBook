@@ -2,45 +2,160 @@
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
+ *
+ * Night Party Gradient Theme: #0250c5 → #d43f8d
  */
 
 /* Import Urdu font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
 
-/* Indigo theme */
+/* Night Party gradient theme */
 :root {
-  --ifm-color-primary: #5c6bc0;
-  --ifm-color-primary-dark: #4a5ab8;
-  --ifm-color-primary-darker: #4254b2;
-  --ifm-color-primary-darkest: #3949ab;
-  --ifm-color-primary-light: #7986cb;
-  --ifm-color-primary-lighter: #9fa8da;
-  --ifm-color-primary-lightest: #c5cae9;
+  --ifm-color-primary: #0250c5;
+  --ifm-color-primary-dark: #0248b1;
+  --ifm-color-primary-darker: #0142a7;
+  --ifm-color-primary-darkest: #01368a;
+  --ifm-color-primary-light: #0258d9;
+  --ifm-color-primary-lighter: #0260e3;
+  --ifm-color-primary-lightest: #1a75f5;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(92, 107, 192, 0.1);
-  --ifm-link-color: #3f51b5;
-  --ifm-navbar-background-color: #3949ab;
-  --ifm-navbar-link-color: #ffffff;
-  --ifm-navbar-link-hover-color: #c5cae9;
+  --docusaurus-highlighted-code-line-bg: rgba(2, 80, 197, 0.1);
+  --ifm-link-color: #0250c5;
+
+  /* Night Party gradient colors */
+  --night-party-start: #0250c5;
+  --night-party-end: #d43f8d;
+  --night-party-gradient: linear-gradient(to top, #0250c5 0%, #d43f8d 100%);
 }
 
-/* Dark mode with indigo */
+/* Dark mode */
 [data-theme='dark'] {
-  --ifm-color-primary: #9fa8da;
-  --ifm-color-primary-dark: #8c96d1;
-  --ifm-color-primary-darker: #7986cb;
-  --ifm-color-primary-darkest: #5c6bc0;
-  --ifm-color-primary-light: #b2b9e3;
-  --ifm-color-primary-lighter: #c5cae9;
-  --ifm-color-primary-lightest: #e8eaf6;
-  --docusaurus-highlighted-code-line-bg: rgba(159, 168, 218, 0.2);
-  --ifm-link-color: #9fa8da;
-  --ifm-navbar-background-color: #1a237e;
-  --ifm-navbar-link-color: #e8eaf6;
-  --ifm-navbar-link-hover-color: #ffffff;
+  --ifm-color-primary: #3b7dff;
+  --ifm-color-primary-dark: #1a66ff;
+  --ifm-color-primary-darker: #0a5cff;
+  --ifm-color-primary-darkest: #0049d6;
+  --ifm-color-primary-light: #5c94ff;
+  --ifm-color-primary-lighter: #6c9fff;
+  --ifm-color-primary-lightest: #9dbfff;
+  --docusaurus-highlighted-code-line-bg: rgba(59, 125, 255, 0.2);
+  --ifm-link-color: #5c94ff;
+
+  /* Brighter gradient for dark mode */
+  --night-party-start: #3b7dff;
+  --night-party-end: #ff5fad;
+  --night-party-gradient: linear-gradient(to top, #3b7dff 0%, #ff5fad 100%);
 }
 
-/* Custom styles for textbook */
+/* ==========================================
+   NAVBAR - Night Party Gradient
+   ========================================== */
+
+.navbar {
+  background: var(--night-party-start) !important;
+  box-shadow: 0 2px 10px rgba(2, 80, 197, 0.3);
+}
+
+.navbar__title,
+.navbar__link,
+.navbar__item {
+  color: #ffffff !important;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.navbar__logo {
+  /* Original logo color preserved */
+}
+
+/* ==========================================
+   HERO BANNER - Night Party Gradient
+   ========================================== */
+
+.hero--primary {
+  background: var(--night-party-gradient) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle animated glow effect */
+.hero--primary::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+  animation: heroGlow 15s ease-in-out infinite;
+}
+
+@keyframes heroGlow {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(25%, 25%);
+  }
+}
+
+.hero__title,
+.hero__subtitle {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================
+   FOOTER - Night Party Gradient
+   ========================================== */
+
+.footer--dark {
+  background: var(--night-party-gradient) !important;
+  box-shadow: 0 -2px 10px rgba(212, 63, 141, 0.3);
+}
+
+.footer__title,
+.footer__link,
+.footer__copyright {
+  color: #ffffff !important;
+}
+
+.footer__link:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
+.button--secondary {
+  background: #ffffff !important;
+  color: #0250c5 !important;
+  border: none !important;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.button--secondary:hover {
+  background: #ffffff !important;
+  color: #d43f8d !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================
+   Custom styles for textbook
+   ========================================== */
+
 .textbook-intro {
   text-align: center;
   padding: 2rem 0;
@@ -77,27 +192,29 @@
   background: #3a3300;
 }
 
-/* Indigo footer */
-.footer--dark {
-  --ifm-footer-background-color: #1a237e;
-}
-
-/* Indigo sidebar active item */
+/* Sidebar active item with gradient accent */
 .menu__link--active:not(.menu__link--sublist) {
-  background-color: rgba(92, 107, 192, 0.15);
+  background: linear-gradient(90deg, rgba(2, 80, 197, 0.15) 0%, rgba(212, 63, 141, 0.15) 100%);
+  border-left: 3px solid var(--night-party-end);
 }
 
 [data-theme='dark'] .menu__link--active:not(.menu__link--sublist) {
-  background-color: rgba(159, 168, 218, 0.15);
+  background: linear-gradient(90deg, rgba(59, 125, 255, 0.15) 0%, rgba(255, 95, 173, 0.15) 100%);
+  border-left: 3px solid var(--night-party-end);
 }
 
 /* Search bar styling */
 .navbar__search-input {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: #ffffff;
 }
 
 .navbar__search-input::placeholder {
   color: rgba(255, 255, 255, 0.7);
+}
+
+.navbar__search-input:focus {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
 }
